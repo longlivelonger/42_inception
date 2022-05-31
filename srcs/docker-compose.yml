@@ -1,16 +1,16 @@
 version: '3.9'
 
 volumes:
-  mariadb_volume:
-    name: mariadb_volume
+  mariadb:
+    name: mariadb
     driver: local
     driver_opts:
       device: ${DATA_DIR}/mariadb
       o: bind
       type: none
 
-  wordpress_volume:
-    name: wordpress_volume
+  wordpress:
+    name: wordpress
     driver: local
     driver_opts:
       device: ${DATA_DIR}/wordpress
@@ -18,31 +18,42 @@ volumes:
       type: none
 
 services:
+  redis:
+    build: redis
+    image: redis
+    container_name: redis
+    networks:
+      - private_network
+    restart: always
+    pull_policy: build
+
   mariadb:
     build: mariadb
-    image: ft_mariadb
-    container_name: ft_mariadb_container
+    image: mariadb
+    container_name: mariadb
     networks:
       - private_network
     volumes:
-      - mariadb_volume:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     restart: always
     environment:
       - DB_NAME
       - DB_USER
       - DB_PASSWORD
       - DB_ROOT_PASSWORD
+    pull_policy: build
 
   wordpress:
     build: wordpress
-    image: ft_wordpress
-    container_name: ft_wordpress_container
+    image: wordpress
+    container_name: wordpress
     networks:
       - private_network
     volumes:
-      - wordpress_volume:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     depends_on:
       - mariadb
+      - redis
     restart: always
     environment:
       - DB_NAME
@@ -54,20 +65,23 @@ services:
       - WP_ADMIN_USER
       - WP_SECOND_USER
       - WP_USER_PASSWORD
+    pull_policy: build
 
   nginx:
     build: nginx
-    image: ft_nginx
-    container_name: ft_nginx_contener
+    image: nginx
+    container_name: nginx
     ports:
       - 443:443
     volumes:
-      - wordpress_volume:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     depends_on:
       - wordpress
     networks:
       - private_network
     restart: always
+    pull_policy: build
 
 networks:
   private_network:
+    name: private_network

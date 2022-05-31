@@ -23,6 +23,9 @@ if [ -f setup.flag ]; then
 	wp user create $WP_SECOND_USER ${WP_SECOND_USER}@example.com \
 		--role=editor --user_pass=$WP_USER_PASSWORD
 
+	wp plugin install redis-cache --activate
+	wp redis enable
+
 	rm -f setup.flag
 fi
 
