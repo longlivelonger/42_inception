@@ -82,6 +82,15 @@ services:
     restart: always
     pull_policy: build
 
+  static_website:
+    build: static_website
+    image: static_website
+    container_name: static_website
+    ports:
+      - 8080:8080
+    restart: always
+    pull_policy: build
+
 networks:
   private_network:
     name: private_network
