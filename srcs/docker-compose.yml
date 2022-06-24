@@ -72,7 +72,7 @@ services:
     image: nginx
     container_name: nginx
     ports:
-      - 443:443
+      - "443:443"
     volumes:
       - wordpress:/var/www/wordpress
     depends_on:
@@ -91,16 +91,23 @@ services:
     restart: always
     pull_policy: build
 
-  # ftp:
-  #   build: ftp
-  #   image: ftp
-  #   container_name: ftp
-  #   volumes:
-  #     - wordpress:/var/www/wordpress
-  #   networks:
-  #     - private_network
-  #   restart: always
-  #   pull_policy: build
+  ftp:
+    build: ftp
+    image: ftp
+    container_name: ftp
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - private_network
+    ports:
+      - "21:21"
+    depends_on:
+      - wordpress
+    restart: always
+    environment:
+      - FTP_USER
+      - FTP_PASSWORD
+    pull_policy: build
 
 networks:
   private_network:
