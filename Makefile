@@ -6,7 +6,7 @@
 #    By: sbronwyn <sbronwyn@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:41:40 by sbronwyn          #+#    #+#              #
-#    Updated: 2022/06/27 17:47:51 by sbronwyn         ###   ########.fr        #
+#    Updated: 2022/06/27 18:09:06 by sbronwyn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,13 @@ $(DATA_DIR)/mariadb:
 $(DATA_DIR): $(DATA_DIR)/wordpress $(DATA_DIR)/mariadb
 
 run: $(DATA_DIR)
-	DATA_DIR=$(DATA_DIR) docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(ENV_FILE) up
+	DATA_DIR=$(DATA_DIR) docker compose -f $(DOCKER_COMPOSE_FILE) --env-file $(ENV_FILE) up
 
 debug: $(DATA_DIR)
-	DATA_DIR=$(DATA_DIR) docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(ENV_FILE) up --build
+	DATA_DIR=$(DATA_DIR) docker compose -f $(DOCKER_COMPOSE_FILE) --env-file $(ENV_FILE) up --build
 
 clean:
-	DATA_DIR=$(DATA_DIR) docker-compose -f $(DOCKER_COMPOSE_FILE) rm -fsv
+	DATA_DIR=$(DATA_DIR) docker compose -f $(DOCKER_COMPOSE_FILE) rm -fsv
 
 fclean: clean
 	docker system prune -a -f
