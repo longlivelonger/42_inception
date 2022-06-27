@@ -6,7 +6,7 @@
 #    By: sbronwyn <sbronwyn@student.21-school.ru>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:41:40 by sbronwyn          #+#    #+#              #
-#    Updated: 2022/06/01 02:07:55 by sbronwyn         ###   ########.fr        #
+#    Updated: 2022/06/27 17:47:51 by sbronwyn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ debug: $(DATA_DIR)
 	DATA_DIR=$(DATA_DIR) docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(ENV_FILE) up --build
 
 clean:
-	docker-compose -f $(DOCKER_COMPOSE_FILE) rm -fsv
+	DATA_DIR=$(DATA_DIR) docker-compose -f $(DOCKER_COMPOSE_FILE) rm -fsv
 
 fclean: clean
 	docker system prune -a -f
